@@ -35,7 +35,10 @@ Observation (FHIR R4 to `observations` table):
 | Field | Source |
 |---|---|
 | id | Observation.id |
-| patient_id | subject.reference, strip the Patient/ prefix |
+| subject_type | Observation.subject.reference (the resource type portion) |
+| subject_id | Observation.subject.reference (the id portion) |
+| subject_display | Observation.subject.display (if present) |
+| patient_id | set when `subject_type` is `Patient` and that patient already exists locally; otherwise null |
 | status | status |
 | code | code.coding[0].display or code.text |
 | effective | effectiveDateTime or effectivePeriod.start |
@@ -43,7 +46,7 @@ Observation (FHIR R4 to `observations` table):
 | raw_json | full resource |
 | migrated_at | migration timestamp |
 
-If an observation has no subject or we cannot resolve it, store it with a null patient_id. The API can still return the original FHIR JSON when the flat fields are not enough.
+We store the full subject reference using `subject_type`, `subject_id`, and `subject_display` so the relationship stays accurate even when the observation is not about a Patient. `patient_id` is a convenience field for fast joins in the demo UI; it may be null when the subject is not a Patient or when the referenced Patient record was not loaded (or not found) yet.
 
 ## Validation
 
