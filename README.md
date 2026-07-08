@@ -205,3 +205,35 @@ The public HAPI sandbox is shared. Use `npm run migrate:dev` for testing. For fu
 | `npm run dev:web` | Start React dev server |
 | `npm run kill-ports` | Free ports 3001/3010/3011 |
 | `npm test` | Run test suite |
+
+## AI usage
+
+This project was built with AI assistance (Cursor). Below is how it was used.
+
+### App scaffolding and implementation
+
+AI helped set up and implement most of the codebase:
+
+- **Project structure** — Node.js + TypeScript layout, `package.json` scripts, env config, and `.gitignore`
+- **Migration pipeline** — FHIR client, parsers, SQLite schema/repos, migration runner, resume/checkpoint logic, and CLI scripts (`migrate`, `db:check`, `fhir:check`, `kill-ports`)
+- **API** — Express app, routes (`/api/health`, `/api/migration/status`, patients, observations), and pagination
+- **Web app** — React + Vite setup, routing, pages (dashboard, patient list, patient detail), shared components, and API client
+- **Tests** — parser, database query, and API endpoint tests with an isolated temp DB
+- **Docs and tooling** — `README.md`, `Plan.md` updates, troubleshooting notes, and `npm run check` for cross-env verification
+
+### Data analysis from API endpoints
+
+AI was used to inspect and reason about migrated data by calling the API during development:
+
+- Checking `/api/migration/status` for patient/observation counts and run state
+- Spot-checking `/api/patients` and `/api/patients/:id/observations` to confirm records, linking, and pagination
+- Diagnosing “no data” and blank-page issues by correlating API responses with what the UI expected
+
+### Other ways AI helped
+
+- **Debugging** — Windows-specific fixes (Vite root/`index.html` layout, port conflicts, `npm run migrate --` flag forwarding)
+- **Schema design** — `subject_type` / `subject_id` / nullable `patient_id` for observation–patient relationships
+- **Iteration** — refining migration interrupt/resume behavior, README troubleshooting, and cross-platform `kill-ports`
+- **Code review** — sanity checks on idempotent upserts, error handling, and test coverage gaps
+
+Human direction drove scope and priorities (keep it simple, patients first, demo-only safety). AI accelerated implementation; final review and run decisions were made in the IDE.
