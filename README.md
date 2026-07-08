@@ -68,3 +68,32 @@ npx tsx scripts/migrate.ts --resume
 ```
 
 Resume skips resource types that already completed and continues from the saved `last_page_url` for any interrupted phase. Already-saved records are safe to upsert again.
+
+## API
+
+Start the read-only REST API:
+
+```bash
+npm run dev:api
+```
+
+Default port is `3001` (set `API_PORT` in `.env`).
+
+Examples:
+
+```bash
+curl http://localhost:3001/api/health
+curl http://localhost:3001/api/migration/status
+curl "http://localhost:3001/api/patients?limit=10&search=ramirez"
+curl http://localhost:3001/api/patients/{id}
+curl http://localhost:3001/api/patients/{id}/observations
+curl "http://localhost:3001/api/observations?patientId={id}&limit=10"
+```
+
+## Tests
+
+```bash
+npm test
+```
+
+Covers FHIR parsing, SQLite queries, and API endpoints using an isolated temp database.

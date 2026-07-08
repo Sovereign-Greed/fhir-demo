@@ -10,16 +10,24 @@
     "migrate:check": "tsx scripts/migrate-check.ts",
     "migrate": "tsx scripts/migrate.ts",
     "migrate:dev": "tsx scripts/migrate.ts --limit 20",
-    "migrate:resume": "tsx scripts/migrate.ts --resume"
+    "migrate:resume": "tsx scripts/migrate.ts --resume",
+    "dev:api": "tsx src/api/server.ts",
+    "test": "node --import tsx --test tests/*.test.ts"
   },
   "dependencies": {
     "better-sqlite3": "^11.9.0",
-    "dotenv": "^16.5.0"
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.13",
+    "@types/cors": "^2.8.18",
+    "@types/express": "^5.0.2",
+    "@types/supertest": "^6.0.3",
     "@types/node": "^22.15.21",
     "tsx": "^4.19.4",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "supertest": "^7.1.1"
   }
 }

@@ -1,0 +1,15 @@
+{
+  "resourceType": "Observation",
+  "id": "obs-1",
+  "status": "final",
+  "subject": {
+    "reference": "Patient/patient-1",
+    "display": "Carlos Ramirez"
+  },
+  "code": {
+    "coding": [{ "display": "Hemoglobin" }],
+    "text": "Hemoglobin"
+  },
+  "effectiveDateTime": "2025-04-20T08:00:00Z",
+  "valueQuantity": { "value": 14.5, "unit": "g/dL" }
+}

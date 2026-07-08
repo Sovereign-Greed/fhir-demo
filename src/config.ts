@@ -13,7 +13,7 @@ export const config = {
 };
 
 export function resolveDatabasePath(): string {
-  return path.resolve(config.databasePath);
+  return path.resolve(process.env.DATABASE_PATH ?? "./data/migration.db");
 }
 
 export function ensureDataDirectory(): void {

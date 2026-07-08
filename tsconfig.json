@@ -12,5 +12,5 @@
     "noEmit": true,
     "baseUrl": "."
   },
-  "include": ["scripts", "src"]
+  "include": ["scripts", "src", "tests"]
 }
