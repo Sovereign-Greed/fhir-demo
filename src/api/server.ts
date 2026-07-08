@@ -6,6 +6,15 @@ getDb();
 
 const app = createApp();
 
-app.listen(config.apiPort, () => {
+const server = app.listen(config.apiPort, () => {
   console.log(`API listening on http://localhost:${config.apiPort}`);
+});
+
+server.on("error", (error: NodeJS.ErrnoException) => {
+  if (error.code === "EADDRINUSE") {
+    console.error(`Port ${config.apiPort} is already in use.`);
+    process.exit(1);
+  }
+
+  throw error;
 });

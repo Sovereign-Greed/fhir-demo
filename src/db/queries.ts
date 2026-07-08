@@ -14,6 +14,29 @@ export interface ListObservationsOptions {
   patientId?: string;
 }
 
+export interface PatientListRow {
+  id: string;
+  family: string | null;
+  given: string | null;
+  full_name: string | null;
+  birth_date: string | null;
+  gender: string | null;
+  migrated_at: string;
+}
+
+export interface ObservationListRow {
+  id: string;
+  subject_type: string | null;
+  subject_id: string | null;
+  patient_id: string | null;
+  subject_display: string | null;
+  status: string | null;
+  code: string | null;
+  effective: string | null;
+  value: string | null;
+  migrated_at: string;
+}
+
 export function listPatients(options: ListPatientsOptions) {
   const search = options.search?.trim();
   const pattern = search ? `%${search}%` : null;
@@ -26,7 +49,14 @@ export function listPatients(options: ListPatientsOptions) {
        ORDER BY full_name, id
        LIMIT ? OFFSET ?`,
     )
-    .all(pattern, pattern, pattern, pattern, options.limit, options.offset);
+    .all(
+      pattern,
+      pattern,
+      pattern,
+      pattern,
+      options.limit,
+      options.offset,
+    ) as PatientListRow[];
 
   const total = (
     getDb()
@@ -77,7 +107,7 @@ export function listObservations(options: ListObservationsOptions) {
       options.patientId ?? null,
       options.limit,
       options.offset,
-    );
+    ) as ObservationListRow[];
 
   const total = (
     getDb()

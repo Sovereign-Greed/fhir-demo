@@ -3,8 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.web.json",
     "db:check": "tsx scripts/db-check.ts",
     "fhir:check": "tsx scripts/fhir-check.ts",
     "migrate:check": "tsx scripts/migrate-check.ts",
@@ -12,22 +15,33 @@
     "migrate:dev": "tsx scripts/migrate.ts --limit 20",
     "migrate:resume": "tsx scripts/migrate.ts --resume",
     "dev:api": "tsx src/api/server.ts",
+    "dev:web": "vite --port 3010 --strictPort",
+    "kill-ports": "tsx scripts/kill-ports.ts",
+    "build:web": "vite build",
+    "check": "npm run typecheck && npm test && npm run build:web",
     "test": "node --import tsx --test tests/*.test.ts"
   },
   "dependencies": {
     "better-sqlite3": "^11.9.0",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^7.6.2"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.13",
     "@types/cors": "^2.8.18",
     "@types/express": "^5.0.2",
+    "@types/react": "^19.1.5",
+    "@types/react-dom": "^19.1.5",
     "@types/supertest": "^6.0.3",
     "@types/node": "^22.15.21",
     "tsx": "^4.19.4",
     "typescript": "^5.8.3",
-    "supertest": "^7.1.1"
+    "supertest": "^7.1.1",
+    "@vitejs/plugin-react": "^4.5.0",
+    "vite": "^6.3.5"
   }
 }
