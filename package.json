@@ -9,7 +9,8 @@
     "fhir:check": "tsx scripts/fhir-check.ts",
     "migrate:check": "tsx scripts/migrate-check.ts",
     "migrate": "tsx scripts/migrate.ts",
-    "migrate:dev": "tsx scripts/migrate.ts --limit 20"
+    "migrate:dev": "tsx scripts/migrate.ts --limit 20",
+    "migrate:resume": "tsx scripts/migrate.ts --resume"
   },
   "dependencies": {
     "better-sqlite3": "^11.9.0",

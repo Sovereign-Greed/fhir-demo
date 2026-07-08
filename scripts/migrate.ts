@@ -1,5 +1,6 @@
 import { closeDb } from "../src/db/connection.js";
-import { runMigration } from "../src/migration/runner.js";
+import { getActiveRunId, runMigration } from "../src/migration/runner.js";
+import { failRun } from "../src/migration/runs.js";
 import type { FhirResourceType } from "../src/fhir/client.js";
 
 const VALID_TYPES = ["Patient", "Observation"] as const;
@@ -50,6 +51,21 @@ function parseArgs(argv: string[]) {
 }
 
 const options = parseArgs(process.argv.slice(2));
+
+function handleInterrupt(): void {
+  const runId = getActiveRunId();
+  if (runId) {
+    failRun(runId, "Interrupted by user");
+  }
+
+  console.log("\nMigration interrupted.");
+  console.log("Resume with: npx tsx scripts/migrate.ts --resume");
+  closeDb();
+  process.exit(130);
+}
+
+process.on("SIGINT", handleInterrupt);
+process.on("SIGTERM", handleInterrupt);
 
 try {
   await runMigration(options);

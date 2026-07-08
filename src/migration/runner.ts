@@ -18,6 +18,7 @@ import {
   createRun,
   failRun,
   findResumableRun,
+  getLatestRun,
   markRunning,
   updateRunProgress,
   type MigrationRun,
@@ -30,6 +31,12 @@ export interface MigrateOptions {
 }
 
 const RESOURCE_ORDER: FhirResourceType[] = ["Patient", "Observation"];
+
+let activeRunId: number | null = null;
+
+export function getActiveRunId(): number | null {
+  return activeRunId;
+}
 
 export async function runMigration(options: MigrateOptions = {}): Promise<void> {
   const startedAt = Date.now();
@@ -60,8 +67,17 @@ async function migrateResourceType(
   resourceType: FhirResourceType,
   options: MigrateOptions,
 ): Promise<{ saved: number; errors: number }> {
+  if (options.resume) {
+    const latest = getLatestRun(resourceType);
+    if (latest?.status === "completed") {
+      console.log(`${resourceType} already completed. Skipping.`);
+      return { saved: latest.saved, errors: latest.errors };
+    }
+  }
+
   const run = resolveRun(resourceType, options.resume ?? false);
   const logger = createMigrationLogger(run.id);
+  activeRunId = run.id;
 
   let fetched = run.fetched;
   let saved = run.saved;
@@ -130,6 +146,10 @@ async function migrateResourceType(
     failRun(run.id, message);
     logger.error("phase_failed", { resourceType, message });
     throw error;
+  } finally {
+    if (activeRunId === run.id) {
+      activeRunId = null;
+    }
   }
 }
 

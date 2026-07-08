@@ -36,6 +36,19 @@ export function getRun(id: number): MigrationRun | undefined {
     .get(id) as MigrationRun | undefined;
 }
 
+export function getLatestRun(
+  resourceType: FhirResourceType,
+): MigrationRun | undefined {
+  return getDb()
+    .prepare(
+      `SELECT * FROM migration_runs
+       WHERE resource_type = ?
+       ORDER BY id DESC
+       LIMIT 1`,
+    )
+    .get(resourceType) as MigrationRun | undefined;
+}
+
 export function findResumableRun(
   resourceType: FhirResourceType,
 ): MigrationRun | undefined {
