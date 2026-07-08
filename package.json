@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "typecheck": "tsc --noEmit",
-    "db:check": "tsx scripts/db-check.ts"
+    "db:check": "tsx scripts/db-check.ts",
+    "fhir:check": "tsx scripts/fhir-check.ts"
   },
   "dependencies": {
     "better-sqlite3": "^11.9.0",
