@@ -63,7 +63,7 @@ async function fetchBundle(url: string): Promise<FhirBundle> {
   throw new Error("FHIR request failed");
 }
 
-function getNextUrl(bundle: FhirBundle): string | undefined {
+export function getNextUrl(bundle: FhirBundle): string | undefined {
   const next = bundle.link?.find((link) => link.relation === "next")?.url;
   if (!next) {
     return undefined;
