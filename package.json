@@ -6,7 +6,8 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "db:check": "tsx scripts/db-check.ts",
-    "fhir:check": "tsx scripts/fhir-check.ts"
+    "fhir:check": "tsx scripts/fhir-check.ts",
+    "migrate:check": "tsx scripts/migrate-check.ts"
   },
   "dependencies": {
     "better-sqlite3": "^11.9.0",
